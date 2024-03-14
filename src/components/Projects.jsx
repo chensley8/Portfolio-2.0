@@ -9,8 +9,15 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import outdoorAdventuresImage from '../assets/outdooradventures.png';
+import moodifyImg from '../assets/moodify.png';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
+
+const languageColors = {
+  HTML: 'red',
+  CSS: 'blue',
+  JavaScript: 'yellow'
+};
 
 const projects = [
   {
@@ -21,26 +28,33 @@ const projects = [
     liveUrl: 'https://evanrc.github.io/Outdoor-Adventures/',
     repoUrl: 'https://github.com/chensley8/Outdoor-Adventures'
   },
-
+  {
+    id: 2,
+    title: 'Moodify',
+    description: 'An app designed to use AI to generate playlists using the Spotify API',
+    imageUrl: moodifyImg,
+    liveUrl: 'https://moodify-s7yr.onrender.com/',
+    repoUrl: 'https://github.com/chensley8/Moodify'
+  }
   // ... other projects
 ];
 
 function LanguagesChart({ languages }) {
   const totalBytes = Object.values(languages).reduce((total, current) => total + current, 0);
 
-  const languagePercentages = Object.values(languages).map((bytes) => ((bytes / totalBytes) * 100).toFixed(2));
+  const languagePercentages = Object.keys(languages).map((language) => ({
+    label: language,
+    data: ((languages[language] / totalBytes) * 100).toFixed(2),
+    backgroundColor: languageColors[language] || 'gray',
+  }));
 
-  const backgroundColors = Object.keys(languages).map(() => {
-    // This function generates a random color.
-    return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
-  });
   const chartData = {
-    labels: Object.keys(languages),
+    labels: languagePercentages.map((language) => language.label),
     datasets: [
       {
         label: 'Programming Languages',
-        data: languagePercentages,
-        backgroundColor: backgroundColors,
+        data: languagePercentages.map((language) => language.data),
+        backgroundColor: languagePercentages.map((language) => language.backgroundColor),
         hoverOffset: 4,
       },
     ],
@@ -93,12 +107,12 @@ function Projects() {
 
   return (
     <Container>
-      <Row xs={1} md={2} lg={3} className="g-4"> {/* Adjust the number of columns based on the screen size */}
+      <Row xs={1} md={2} lg={3} className="g-4">
         {projects.map((project) => (
           <Col key={project.id}>
-            <Card border="warning">
-              <Card.Img variant="top" src={project.imageUrl} />
-              <Card.Body>
+            <Card border="dark" style={{ minHeight: '100%', display: 'flex', flexDirection: 'column' }}> 
+              <Card.Img variant="top" src={project.imageUrl} style={{ height: '200px', objectFit: 'cover' }} />
+              <Card.Body style={{ flex: 1 }}>
                 <Card.Title>{project.title}</Card.Title>
                 <Card.Text>{project.description}</Card.Text>
                 {languagesData[project.id] && (

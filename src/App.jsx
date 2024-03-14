@@ -12,14 +12,18 @@ import Resume from './components/Resume';
 function App() {
   return (
     <Router>
-      <Header />
-      <Routes>
-        <Route exact path="/" element={<About />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/projects" element={<Projects />} />
-        <Route path="/Resume" element={<Resume />} />
-      </Routes>
-      <Footer />
+      <div id="root">
+        <Header />
+        <div className="content">
+          <Routes>
+            <Route exact path="/" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/projects" element={<Projects />} />
+            <Route path="/resume" element={<Resume />} />
+          </Routes>
+        </div>
+        <Footer />
+      </div>
     </Router>
   );
 }

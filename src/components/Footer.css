@@ -1,4 +1,6 @@
 
-  .footer {
-    flex-shrink: 0;
-  }
+.footer {
+  padding: 10px 0;
+  text-align: center;
+  background: #75bfe4;
+}
